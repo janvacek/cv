@@ -1,0 +1,81 @@
+$summaryBg: #161624;
+$summaryBorder: #ffffff;
+
+$itemColor: #ffffff;
+$itemBorder: #ffffff;
+$itemProsColor: #00ff00;
+$itemConsColor: #ff0000;
+$itemNoteColor: #0000ff;
+$trashIconColor: #ff0000;
+
+$inputErrorColor: #ff0000;
+
+.pros-cons-summary {
+  background: $summaryBg;
+  border: 1px solid $summaryBorder;
+  padding: 15px;
+  .pros-cons-list {
+    .pros-cons-list-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &.pro {
+      .pros-cons-list-heading {
+        color: $itemProsColor;
+      }
+      .icon {
+        color: $itemProsColor;
+      }
+    }
+    &.con {
+      .icon {
+        color: $itemConsColor;
+      }
+      .pros-cons-list-heading {
+        color: $itemConsColor;
+      }
+    }
+    &.note {
+      .icon {
+        color: $itemNoteColor;
+      }
+      .pros-cons-list-heading {
+        color: $itemNoteColor;
+      }
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      .pros-cons-list-item {
+        color: $itemColor;
+        border: 1px solid $itemBorder;
+        list-style-type: none;
+        margin-top: 8px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        .icon {
+          margin-right: 5px;
+        }
+        &:first-child {
+          margin-top: 0;
+        }
+        button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          margin-left: auto;
+          svg {
+            color: $trashIconColor;
+          }
+        }
+      }
+    }
+  }
+}
+
+.input-error-message {
+  color: $inputErrorColor;
+  font-size: 12px;
+}
