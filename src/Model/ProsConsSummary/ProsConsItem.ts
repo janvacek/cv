@@ -5,6 +5,7 @@ export enum ProsConsType {
 }
 
 export interface ProsConsItem {
+	id: string
 	text: string
 	type: ProsConsType
 }

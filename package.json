@@ -21,9 +21,11 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "sass": "^1.56.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.3",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "craco": "^0.0.3"
   },
   "eslintConfig": {

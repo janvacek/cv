@@ -20,7 +20,7 @@ export default function ProsConsList(props: Props) {
 
 	const itemsToRender = useMemo<ReactNode[]>(() => {
 		return items?.map((pci: ProsConsItemType, index) => {
-			return <ProsConsItem key={`${pci.text}-${index}`} item={pci} onRemoveItem={() => onRemoveItem(pci)} />
+			return <ProsConsItem key={pci.id} item={pci} onRemoveItem={() => onRemoveItem(pci)} />
 		}) ?? []
 	}, [items, onRemoveItem])
 
