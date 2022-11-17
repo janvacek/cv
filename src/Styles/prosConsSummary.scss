@@ -1,5 +1,3 @@
-$summaryBg: #161624;
-$summaryBorder: #ffffff;
 
 $itemColor: #ffffff;
 $itemBorder: #ffffff;
@@ -10,67 +8,112 @@ $trashIconColor: #ff0000;
 
 $inputErrorColor: #ff0000;
 
-.pros-cons-summary {
+$summary-footer-shadow: 0px 20px 20px 20px $shadowColor;
+
+.pros-cons-summary-container {
   background: $summaryBg;
-  border: 1px solid $summaryBorder;
-  padding: 15px;
-  .pros-cons-list {
-    .pros-cons-list-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    &.pro {
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .pros-cons-summary-lists {
+    flex-grow: 1;
+    overflow: scroll;
+    padding-bottom: 150px;
+    .pros-cons-list {
+      padding: 15px;
       .pros-cons-list-heading {
-        color: $itemProsColor;
-      }
-      .icon {
-        color: $itemProsColor;
-      }
-    }
-    &.con {
-      .icon {
-        color: $itemConsColor;
-      }
-      .pros-cons-list-heading {
-        color: $itemConsColor;
-      }
-    }
-    &.note {
-      .icon {
-        color: $itemNoteColor;
-      }
-      .pros-cons-list-heading {
-        color: $itemNoteColor;
-      }
-    }
-    ul {
-      padding: 0;
-      margin: 0;
-      .pros-cons-list-item {
-        color: $itemColor;
-        border: 1px solid $itemBorder;
-        list-style-type: none;
-        margin-top: 8px;
-        padding: 5px;
         display: flex;
+        justify-content: space-between;
         align-items: center;
+      }
+      &.pro {
+        .pros-cons-list-heading {
+          color: $itemProsColor;
+        }
         .icon {
-          margin-right: 5px;
+          color: $itemProsColor;
         }
-        &:first-child {
-          margin-top: 0;
+      }
+      &.con {
+        .icon {
+          color: $itemConsColor;
         }
-        button {
-          background: none;
-          border: none;
-          cursor: pointer;
-          margin-left: auto;
-          svg {
-            color: $trashIconColor;
+        .pros-cons-list-heading {
+          color: $itemConsColor;
+        }
+      }
+      &.note {
+        .icon {
+          color: $itemNoteColor;
+        }
+        .pros-cons-list-heading {
+          color: $itemNoteColor;
+        }
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+        .pros-cons-list-item {
+          color: $itemColor;
+          border: 1px solid $itemBorder;
+          list-style-type: none;
+          margin-top: 8px;
+          padding: 5px;
+          display: flex;
+          align-items: center;
+          .icon {
+            margin-right: 5px;
+          }
+          &:first-child {
+            margin-top: 0;
+          }
+          button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            svg {
+              color: $trashIconColor;
+            }
           }
         }
       }
+    }
+  }
+  .pros-cons-summary-footer {
+    position: absolute;
+    background: $summaryBg;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: $summary-footer-shadow;
+    padding: 15px;
+  }
+}
+
+.pros-cons-reduced-summary {
+  padding: 5px;
+  background: $summaryBg;
+  display: flex;
+  flex-direction: column;
+  width: 40px;
+  .count {
+    padding: 15px;
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.pro {
+      color: $itemProsColor;
+    }
+    &.con {
+      color: $itemConsColor;
+    }
+    &.note {
+      color: $itemNoteColor;
     }
   }
 }

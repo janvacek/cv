@@ -19,11 +19,15 @@ export default function ProsConsSummary() {
 	}
 
 	return (
-		<div className="pros-cons-summary">
-			<ProsConsList className="pro" heading="Klady" items={prosCons.items.filter(i => i.type === ProsConsType.PRO)} onRemoveItem={removeItem} />
-			<ProsConsList className="con" heading="Zápory" items={prosCons.items.filter(i => i.type === ProsConsType.CON)} onRemoveItem={removeItem} />
-			<ProsConsList className="note" heading="Poznámky" items={prosCons.items.filter(i => i.type === ProsConsType.NOTE)} hideItemsCount onRemoveItem={removeItem} />
-			<ProsConsInput onButtonClick={addItem} />
+		<div className="pros-cons-summary-container">
+			<div className="pros-cons-summary-lists">
+				<ProsConsList className="pro" heading="Klady" items={prosCons.items.filter(i => i.type === ProsConsType.PRO)} onRemoveItem={removeItem} />
+				<ProsConsList className="con" heading="Zápory" items={prosCons.items.filter(i => i.type === ProsConsType.CON)} onRemoveItem={removeItem} />
+				<ProsConsList className="note" heading="Poznámky" items={prosCons.items.filter(i => i.type === ProsConsType.NOTE)} hideItemsCount onRemoveItem={removeItem} />
+			</div>
+			<div className="pros-cons-summary-footer">
+				<ProsConsInput onButtonClick={addItem} />
+			</div>
 		</div>
 	)
 }

@@ -1,0 +1,53 @@
+.side-panel-container {
+  --side-panel-width: 40%;
+  --side-panel-control-width: 60px;
+  --side-panel-top: 5px;
+
+  height: 100vh;
+  width: var(--side-panel-width);
+  background: $summaryBg;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: calc(var(--side-panel-width) * -1);
+  transition: right 0.4s ease-out;
+  padding-top: calc(var(--side-panel-control-width) + var(--side-panel-top) * 2);
+  .side-panel-control {
+    position: absolute;
+    top: var(--side-panel-top);
+    width: var(--side-panel-control-width);
+    left: calc(var(--side-panel-control-width) * -1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    .pros-cons-reduced-summary {
+      position: relative;
+      z-index: -1;
+      margin-top: 10px;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+      transform: translateX(100%);
+      transition: transform 0.4s ease-out;
+      &.show {
+        transform: translateX(0);
+      }
+    }
+  }
+  .side-panel-control-button {
+    width: var(--side-panel-control-width);
+    height: var(--side-panel-control-width);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    transition: transform 0.4s ease-out;
+  }
+  &.show {
+    right: 0;
+    .side-panel-control-button {
+      transform: translateX(100%);
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

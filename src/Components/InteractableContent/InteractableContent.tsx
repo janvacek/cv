@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useMemo } from 'react'
+import { ReactNode, useContext, useMemo, useState } from 'react'
 import InteractableContentControls from '~/src/Components/InteractableContent/InteractableContentControls'
 import {
 	ProsConsContext,
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const defaultProps: Partial<Props> = {
-	tagName: 'p'
+	tagName: 'div'
 }
 
 export default function InteractableContent(props: Props) {
@@ -23,25 +23,43 @@ export default function InteractableContent(props: Props) {
 	const { prosCons, addItem: addProsConsItem, removeItem: removeProsConsItem } = useContext<ProsConsContextType>(ProsConsContext)
 	const Tag = props.tagName as keyof JSX.IntrinsicElements
 
+	const [focused, setFocused] = useState<boolean>(false)
+
 	const addItem = (type: ProsConsType) => {
 		addProsConsItem(props.heading, type, props.id)
+		setFocused(false)
 	}
 
 	const removeItem = () => {
 		removeProsConsItem(props.id)
+		setFocused(false)
+	}
+
+	const onClick = () => {
+		if (isSelected) {
+			return
+		}
+		setFocused(!focused)
+	}
+
+	const onBlur = () => {
+		console.log('kek')
+		setFocused(false)
 	}
 
 	const isSelected = useMemo<boolean>(() => prosCons.items.some(i => i.id === propsId), [prosCons, propsId])
 
 	return (
-		<Tag className="interactable-content">
+		<Tag className={`interactable-content ${focused && 'selected'}`} onClick={onClick} onBlur={onBlur}>
 			{props.children}
-			<InteractableContentControls
-				id={props.id}
-				isSelected={isSelected}
-				onAdd={addItem}
-				onRemove={removeItem}
-			/>
+			{(isSelected || focused) &&
+				<InteractableContentControls
+					id={props.id}
+					isSelected={isSelected}
+					onAdd={addItem}
+					onRemove={removeItem}
+				/>
+			}
 		</Tag>
 	)
 }

@@ -1,2 +1,15 @@
-//$prosConsSummaryBackground: #161624;
-//$prosConsSummaryText: #ffffff;
+$bg-primary: linear-gradient(135deg, rgba(0,0,0,1), rgba(119,48,145,1) 0%, rgba(0,0,0,1)) 0%/ 200%;
+$bg-primary-hover: linear-gradient(135deg, rgba(0,0,0,1), rgba(119,48,145,1) 0%, rgba(0,0,0,1)) 100%/ 200%;
+
+$summaryBg: #161624;
+$shadowColor: #773091FF;
+
+@mixin box-shadow($color, $inset: false) {
+  $mode: null;
+  $blur: 30px;
+  @if $inset {
+    $mode: inset;
+    $blur: 10px;
+  }
+  box-shadow: $mode 0 0 $blur 0 $color;
+}

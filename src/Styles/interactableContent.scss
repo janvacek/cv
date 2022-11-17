@@ -1,8 +1,39 @@
 .interactable-content {
   position: relative;
+  transition: 0.4s ease-out;
+  cursor: pointer;
+  &:hover {
+    border-radius: $border-radius;
+    @include box-shadow($shadowColor);
+  }
+  &::after {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    position: absolute;
+    transition: 0.4s ease-out;
+  }
+  &.selected {
+    border-radius: $border-radius;
+    box-shadow: none;
+    &::after {
+      @include box-shadow($shadowColor, true);
+    }
+  }
   .interactable-content-controls {
     position: absolute;
     top: 0;
     left: 0;
+    margin: auto;
+    z-index: 2;
+    transform: translateY(calc(-100% - 5px));
+    .btn {
+      margin-left: 5px;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
   }
 }

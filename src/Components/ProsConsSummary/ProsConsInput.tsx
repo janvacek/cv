@@ -1,5 +1,6 @@
 import { ProsConsType } from '~/src/Model/ProsConsSummary/ProsConsItem'
 import { useMemo, useRef, useState } from 'react'
+import CustomButton from '~/src/Components/DesignSystem/Button/CustomButton'
 
 interface Props {
 	onButtonClick: (text: string, type: ProsConsType) => void
@@ -9,7 +10,7 @@ export default function ProsConsInput(props: Props) {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [inputVal, changeInputVal] = useState<string>('')
 	const [submitted, setSubmitted] = useState<boolean>(false)
-	const inputValid = useMemo<boolean>(() => /^\w{1,}$/.test(inputVal), [inputVal])
+	const inputValid = useMemo<boolean>(() => /^[\w\s]{1,}$/.test(inputVal), [inputVal])
 
 	const handleInputChange = (input: string) => {
 		changeInputVal(input)
@@ -28,7 +29,7 @@ export default function ProsConsInput(props: Props) {
 	}
 
 	return (
-		<div>
+		<>
 			<div>
 				<input
 					ref={inputRef}
@@ -37,9 +38,9 @@ export default function ProsConsInput(props: Props) {
 				/>
 				{(!inputValid && submitted) && <span className="input-error-message">Pouze písmena a číslice</span>}
 			</div>
-			<button onClick={() => handleButtonClick(ProsConsType.CON)}>CON</button>
-			<button onClick={() => handleButtonClick(ProsConsType.PRO)}>PRO</button>
-			<button onClick={() => handleButtonClick(ProsConsType.NOTE)}>NOTE</button>
-		</div>
+			<CustomButton onClick={() => handleButtonClick(ProsConsType.CON)}>CON</CustomButton>
+			<CustomButton onClick={() => handleButtonClick(ProsConsType.PRO)}>PRO</CustomButton>
+			<CustomButton onClick={() => handleButtonClick(ProsConsType.NOTE)}>NOTE</CustomButton>
+		</>
 	)
 }
