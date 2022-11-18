@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useMemo, useState } from 'react'
+import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import InteractableContentControls from '~/src/Components/InteractableContent/InteractableContentControls'
 import {
 	ProsConsContext,
@@ -10,7 +10,7 @@ interface Props {
 	children: ReactNode
 	heading: string
 	id: string
-	tagName?: keyof JSX.IntrinsicElements
+	tagName?: string
 }
 
 const defaultProps: Partial<Props> = {
@@ -20,10 +20,13 @@ const defaultProps: Partial<Props> = {
 export default function InteractableContent(props: Props) {
 	props = {...defaultProps, ...props}
 	const { id: propsId } = props
+
+	const TagName = props.tagName
 	const { prosCons, addItem: addProsConsItem, removeItem: removeProsConsItem } = useContext<ProsConsContextType>(ProsConsContext)
-	const Tag = props.tagName as keyof JSX.IntrinsicElements
+	const rootTag = useRef<JSX.IntrinsicElements>(null)
 
 	const [focused, setFocused] = useState<boolean>(false)
+	const isSelected = useMemo<boolean>(() => prosCons.items.some(i => i.id === propsId), [prosCons, propsId])
 
 	const addItem = (type: ProsConsType) => {
 		addProsConsItem(props.heading, type, props.id)
@@ -42,15 +45,26 @@ export default function InteractableContent(props: Props) {
 		setFocused(!focused)
 	}
 
-	const onBlur = () => {
-		console.log('kek')
-		setFocused(false)
+	const documentClickHandler = (event: MouseEvent) => {
+		if (rootTag.current !== event.target) {
+			setFocused(false)
+		}
 	}
 
-	const isSelected = useMemo<boolean>(() => prosCons.items.some(i => i.id === propsId), [prosCons, propsId])
+
+	useEffect(() => {
+		document.addEventListener('click', documentClickHandler)
+
+		return () => document.removeEventListener('click', documentClickHandler)
+	}, [])
 
 	return (
-		<Tag className={`interactable-content ${focused && 'selected'}`} onClick={onClick} onBlur={onBlur}>
+		// @ts-ignore
+		<TagName
+			ref={rootTag}
+			className={`interactable-content ${(isSelected || focused) && 'selected'}`}
+			onClick={onClick}
+		>
 			{props.children}
 			{(isSelected || focused) &&
 				<InteractableContentControls
@@ -60,6 +74,6 @@ export default function InteractableContent(props: Props) {
 					onRemove={removeItem}
 				/>
 			}
-		</Tag>
+		</TagName>
 	)
 }
