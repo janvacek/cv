@@ -17,16 +17,19 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "bootstrap": "^5.2.2",
+    "classnames": "^2.3.2",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.39.4",
     "react-scripts": "5.0.1",
     "sass": "^1.56.1",
     "typescript": "^4.9.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@hookform/devtools": "^4.2.3",
     "@types/uuid": "^8.3.4",
     "craco": "^0.0.3"
   },

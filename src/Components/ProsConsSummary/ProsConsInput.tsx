@@ -4,6 +4,7 @@ import CustomButton from '~/src/Components/DesignSystem/Button/CustomButton'
 
 interface Props {
 	onButtonClick: (text: string, type: ProsConsType) => void
+	onSendFeedbackClick: () => void
 }
 
 export default function ProsConsInput(props: Props) {
@@ -41,6 +42,7 @@ export default function ProsConsInput(props: Props) {
 			<CustomButton onClick={() => handleButtonClick(ProsConsType.CON)}>CON</CustomButton>
 			<CustomButton onClick={() => handleButtonClick(ProsConsType.PRO)}>PRO</CustomButton>
 			<CustomButton onClick={() => handleButtonClick(ProsConsType.NOTE)}>NOTE</CustomButton>
+			<CustomButton onClick={props.onSendFeedbackClick}>FEEDBACK</CustomButton>
 		</>
 	)
 }

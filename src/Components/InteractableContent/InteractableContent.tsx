@@ -1,35 +1,48 @@
-import { ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { ElementType, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import InteractableContentControls from '~/src/Components/InteractableContent/InteractableContentControls'
-import {
-	ProsConsContext,
-	ProsConsContextType
-} from '~/src/Infrastructure/ProsConsContext/ProsConsContext'
+import { ProsConsContext, ProsConsContextType } from '~/src/Infrastructure/ProsConsContext/ProsConsContext'
 import { ProsConsType } from '~/src/Model/ProsConsSummary/ProsConsItem'
+import classNames from 'classnames'
 
 interface Props {
 	children: ReactNode
 	heading: string
 	id: string
-	tagName?: string
+	tagName?: ElementType
+	className?: string
+	proHeadingOverride?: string
+	conHeadingOverride?: string
 }
 
 const defaultProps: Partial<Props> = {
-	tagName: 'div'
+	tagName: 'div',
+	className: ''
 }
 
 export default function InteractableContent(props: Props) {
-	props = {...defaultProps, ...props}
+	props = { ...defaultProps, ...props }
 	const { id: propsId } = props
 
-	const TagName = props.tagName
-	const { prosCons, addItem: addProsConsItem, removeItem: removeProsConsItem } = useContext<ProsConsContextType>(ProsConsContext)
+	const TagName: ElementType = props.tagName as ElementType
+	const {
+		prosCons,
+		addItem: addProsConsItem,
+		removeItem: removeProsConsItem
+	} = useContext<ProsConsContextType>(ProsConsContext)
 	const rootTag = useRef<JSX.IntrinsicElements>(null)
 
 	const [focused, setFocused] = useState<boolean>(false)
 	const isSelected = useMemo<boolean>(() => prosCons.items.some(i => i.id === propsId), [prosCons, propsId])
 
 	const addItem = (type: ProsConsType) => {
-		addProsConsItem(props.heading, type, props.id)
+		let heading = props.heading
+		if (type === ProsConsType.PRO && props.proHeadingOverride) {
+			heading = props.proHeadingOverride
+		}
+		if (type === ProsConsType.CON && props.conHeadingOverride) {
+			heading = props.conHeadingOverride
+		}
+		addProsConsItem(heading, type, props.id)
 		setFocused(false)
 	}
 
@@ -59,10 +72,11 @@ export default function InteractableContent(props: Props) {
 	}, [])
 
 	return (
-		// @ts-ignore
 		<TagName
 			ref={rootTag}
-			className={`interactable-content ${(isSelected || focused) && 'selected'}`}
+			className={classNames('interactable-content', {
+				'selected': isSelected || focused
+			})}
 			onClick={onClick}
 		>
 			{props.children}

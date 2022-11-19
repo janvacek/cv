@@ -11,7 +11,7 @@ function App() {
 			<Container className={'pt-5'}>
 				<Row>
 					<Col>
-						<InteractableContent id="test-1" heading="Testovací položka 1">
+						<InteractableContent id="test-1" proHeadingOverride={"Fešák"} heading="Testovací položka 1">
 							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, aliquam aspernatur assumenda cumque delectus enim excepturi harum iste iusto laudantium nihil obcaecati quisquam recusandae reiciendis reprehenderit sunt vero vitae. Sed?
 						</InteractableContent>
 					</Col>

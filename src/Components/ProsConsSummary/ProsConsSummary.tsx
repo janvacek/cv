@@ -1,14 +1,16 @@
 import ProsConsInput from '~/src/Components/ProsConsSummary/ProsConsInput'
 import { ProsConsItem as ProsConsItemType, ProsConsType } from '~/src/Model/ProsConsSummary/ProsConsItem'
 import ProsConsList from '~/src/Components/ProsConsSummary/ProsConsList'
-import { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
 	ProsConsContext,
 	ProsConsContextType
 } from '~/src/Infrastructure/ProsConsContext/ProsConsContext'
+import ProsConsContactModal from '~/src/Components/ProsConsSummary/ProsConsContact/ProsConsContactModal'
 
 export default function ProsConsSummary() {
 	const { prosCons, addItem: addProsConsItem, removeItem: removeProsConsItem } = useContext<ProsConsContextType>(ProsConsContext)
+	const [showContactModal, setShowContactModal] = useState<boolean>(false)
 
 	const addItem = (input: string, type: ProsConsType) => {
 		addProsConsItem(input, type)
@@ -26,8 +28,9 @@ export default function ProsConsSummary() {
 				<ProsConsList className="note" heading="Poznámky" items={prosCons.items.filter(i => i.type === ProsConsType.NOTE)} hideItemsCount onRemoveItem={removeItem} />
 			</div>
 			<div className="pros-cons-summary-footer">
-				<ProsConsInput onButtonClick={addItem} />
+				<ProsConsInput onButtonClick={addItem} onSendFeedbackClick={() => setShowContactModal(true)} />
 			</div>
+			{showContactModal && <ProsConsContactModal onClose={() => setShowContactModal(false)} />}
 		</div>
 	)
 }
