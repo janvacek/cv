@@ -8,7 +8,7 @@ interface Props extends ModalProps {
 export default function ProsConsContactModal(props: Props) {
 	return (
 		<>
-			<Modal onClose={props.onClose}>
+			<Modal onHide={props.onHide}>
 				<ProsConsContactForm />
 			</Modal>
 		</>
