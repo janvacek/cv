@@ -1,0 +1,30 @@
+:root {
+  --form-error-color: #ff0000;
+  --input-border-color: #aaaaaa;
+  --input-border-color-focus: #ff0000;
+  --input-color: #000000;
+  --input-bg: #ffffff;
+}
+
+.form-floating {
+  input, textarea {
+    border-radius: $border-radius;
+    outline: none!important;
+    box-shadow: none!important;
+    border: 1px solid var(--input-border-color);
+    color: var(--input-color);
+    background: var(--input-bg);
+    &:focus {
+      border: 1px solid var(--input-border-color-focus);
+    }
+  }
+  textarea {
+    min-height: 100px;
+    resize: none;
+  }
+}
+
+.form-error {
+  font-size: 12px;
+  color: var(--form-error-color);
+}

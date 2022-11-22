@@ -8,13 +8,15 @@ interface Props {
 	className?: string
 	type?: ButtonType
 	variant?: ButtonVariant
-	onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+	submit?: boolean
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const defaultProps: Partial<Props> = {
 	variant: 'primary',
 	type: ButtonType.TEXT,
-	className: ''
+	className: '',
+	submit: false
 }
 
 export default function CustomButton(props: Props) {
@@ -22,9 +24,10 @@ export default function CustomButton(props: Props) {
 
 	return (
 		<Button
+			type={props.submit ? 'submit' : 'button'}
 			variant={props.variant}
 			className={`type-${props.type} ${props.className}`}
-			onClick={(e: React.MouseEvent<HTMLButtonElement>) => props.onClick(e)}
+			onClick={(e: React.MouseEvent<HTMLButtonElement>) => props.onClick?.(e)}
 		>
 			{props.children}
 		</Button>

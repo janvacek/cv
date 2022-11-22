@@ -6,7 +6,11 @@ import BsModalBody from 'react-bootstrap/ModalBody';
 import BsModalFooter from 'react-bootstrap/ModalFooter';
 
 export interface ModalProps {
-	onHide: () => void
+	onHide?: () => void
+	showFooter?: boolean
+	title?: string
+	footerSlot?: ReactNode
+	headerSlot?: ReactNode
 }
 
 interface Props extends ModalProps {
@@ -14,7 +18,8 @@ interface Props extends ModalProps {
 }
 
 const defaultProps: Partial<Props> = {
-
+	showFooter: false,
+	title: '',
 }
 
 export default function Modal(props: Props) {
@@ -27,7 +32,7 @@ export default function Modal(props: Props) {
 	}
 
 	const onExited = () => {
-		props.onHide()
+		props.onHide?.()
 	}
 
 	return (
@@ -37,16 +42,24 @@ export default function Modal(props: Props) {
 			onExited={onExited}
 		>
 			<BsModalHeader closeButton>
-				<BsModalTitle>Modal title</BsModalTitle>
+				{props.headerSlot ? (
+					props.headerSlot
+				) : (
+					props.title && (
+						<BsModalTitle>{props.title}</BsModalTitle>
+					)
+				)}
 			</BsModalHeader>
 
 			<BsModalBody>
 				{props.children}
 			</BsModalBody>
 
-			<BsModalFooter>
-				<p>asdasd</p>
-			</BsModalFooter>
+			{props.showFooter && (
+				<BsModalFooter>
+					{props.footerSlot}
+				</BsModalFooter>
+			)}
 		</BsModal>
 	)
 }
