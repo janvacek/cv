@@ -1,0 +1,53 @@
+.form-container {
+  &.pending {
+    position: relative;
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0,0,0,0.5);
+      content: "";
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      border-radius: $border-radius;
+    }
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $bg-primary;
+      content: "";
+      width: 20px;
+      height: 20px;
+      z-index: 15;
+      margin: auto;
+      border-top-left-radius: 100%;
+      border-bottom-right-radius: 100%;
+      animation: pendingAnim infinite ease-in-out 1s;
+    }
+  }
+  .form-success-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    svg {
+      color: $success;
+      width: 64px;
+      height: 64px;
+    }
+  }
+}
+
+@keyframes pendingAnim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

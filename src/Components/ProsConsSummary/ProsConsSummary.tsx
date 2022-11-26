@@ -30,7 +30,7 @@ export default function ProsConsSummary() {
 			<div className="pros-cons-summary-footer">
 				<ProsConsInput onButtonClick={addItem} onSendFeedbackClick={() => setShowContactModal(true)} />
 			</div>
-			{showContactModal && <ProsConsContactModal onHide={() => setShowContactModal(false)} />}
+			{showContactModal && <ProsConsContactModal prosCons={prosCons} onHide={() => setShowContactModal(false)} />}
 		</div>
 	)
 }

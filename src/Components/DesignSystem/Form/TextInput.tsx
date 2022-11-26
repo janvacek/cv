@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useUuidGenerator } from '~/src/Infrastructure/Uuid/UuidGenerator'
 import { InputType } from '~/src/Model/Input/InputType'
 import classNames from 'classnames'
@@ -13,7 +13,7 @@ interface Props {
 	inputClassName?: string
 	wrapperClassName?: string
 	register?: any | null
-	errors?: FieldErrors
+	errors?: FieldErrors,
 }
 
 const defaultProps: Partial<Props> = {
@@ -23,10 +23,10 @@ const defaultProps: Partial<Props> = {
 	type: InputType.TEXT,
 	inputClassName: '',
 	wrapperClassName: '',
-	register: null
+	register: null,
 }
 
-export default function TextInput(props: Props) {
+const TextInput = React.forwardRef(function TextInput(props: Props, ref) {
 	const { generate } = useUuidGenerator()
 	props = { ...defaultProps, ...props }
 	const [id] = useState(props.id || generate())
@@ -41,8 +41,8 @@ export default function TextInput(props: Props) {
 		}
 	}, [id, props])
 
-	const textArea = <textarea {...sharedProps}></textarea>
-	const input = <input type={props.type} {...sharedProps}/>
+	const textArea = <textarea ref={ref} {...sharedProps}></textarea>
+	const input = <input ref={ref} type={props.type} {...sharedProps}/>
 
 	return (
 		<div className={classNames('form-floating', )}>
@@ -53,4 +53,6 @@ export default function TextInput(props: Props) {
 			</>
 		</div>
 	)
-}
+})
+
+export default TextInput

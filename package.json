@@ -9,6 +9,7 @@
     "eject": "craco eject"
   },
   "dependencies": {
+    "@cloudflare/pages-plugin-mailchannels": "^0.1.1",
     "@hookform/resolvers": "^2.9.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
