@@ -1,5 +1,5 @@
 import { DevTool } from '@hookform/devtools'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
 import {Col, Row} from 'react-bootstrap'
 import TextInput from '~/src/Components/DesignSystem/Form/TextInput'
 import { InputType } from '~/src/Model/Input/InputType'
@@ -31,9 +31,9 @@ export default function ProsConsContactForm(props: Props) {
 	const { sendEmail } = useProsConsRepository()
 	const [formSucceeded, setFormSucceeded] = useState<boolean>(false)
 	const [formSubmissionPending, setFormSubmissionPending] = useState<boolean>(false)
-	const { register, control, handleSubmit, formState: { errors } } = useForm<Inputs>({
+	const formMethods = useForm<Inputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(schema),
+		resolver: yupResolver(schema)
 	})
 
 	const [formData, setFormData] = useState<Inputs>({
@@ -42,9 +42,9 @@ export default function ProsConsContactForm(props: Props) {
 		note: ''
 	})
 
-	const updateFormData = (event: any, inputName: keyof Inputs) => {
+	const updateFormData = (value: string, inputName: keyof Inputs) => {
 		const newData = {...formData}
-		newData[inputName] = event.target.value
+		newData[inputName] = value
 		setFormData(newData)
 	}
 
@@ -72,53 +72,46 @@ export default function ProsConsContactForm(props: Props) {
 	)
 
 	const form = (
-		<form onSubmit={handleSubmit(onSubmit)}>
-			<Row>
-				<Col md={6}>
-					<TextInput
-						name={'name'}
-						label="Vaše ctěné jméno"
-						placeholder="Vaše ctěné jméno"
-						register={register('name', {
-							onChange: (e) => updateFormData(e, 'name')
-						})}
-						errors={errors}
-					/>
-				</Col>
-				<Col md={6}>
-					<TextInput
-						name={'email'}
-						label="Váš e-mail"
-						placeholder="Váš e-mail"
-						register={register('email', {
-							onChange: (e) => updateFormData(e, 'email')
-						})}
-						errors={errors}
-					/>
-				</Col>
-				<Col>
-					<TextInput
-						name={'note'}
-						type={InputType.TEXTAREA}
-						label="Poznámka"
-						placeholder="Poznámka"
-						register={register('note', {
-							onChange: (e) => updateFormData(e, 'note')
-						})}
-						errors={errors}
-					/>
-				</Col>
-			</Row>
-			<CustomButton submit>
-				Odeslat
-			</CustomButton>
-		</form>
+		<FormProvider {...formMethods}>
+			<form onSubmit={formMethods.handleSubmit(onSubmit)}>
+				<Row>
+					<Col md={6}>
+						<TextInput
+							name={'name'}
+							label="Vaše ctěné jméno"
+							placeholder="Vaše ctěné jméno"
+							onChange={(value: string) => updateFormData(value, 'name')}
+						/>
+					</Col>
+					<Col md={6}>
+						<TextInput
+							name={'email'}
+							label="Váš e-mail"
+							placeholder="Váš e-mail"
+							onChange={(value: string) => updateFormData(value, 'email')}
+						/>
+					</Col>
+					<Col>
+						<TextInput
+							name={'note'}
+							type={InputType.TEXTAREA}
+							label="Poznámka"
+							placeholder="Poznámka"
+							onChange={(value: string) => updateFormData(value, 'note')}
+						/>
+					</Col>
+				</Row>
+				<CustomButton submit>
+					Odeslat
+				</CustomButton>
+			</form>
+		</FormProvider>
 	)
 
 	return (
 		<div className={classNames("form-container", {'pending': formSubmissionPending})}>
 			{formSucceeded ? successState : form}
-			<DevTool control={control} />
+			<DevTool control={formMethods.control} />
 		</div>
 	)
 }

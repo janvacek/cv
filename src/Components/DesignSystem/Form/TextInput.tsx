@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useUuidGenerator } from '~/src/Infrastructure/Uuid/UuidGenerator'
 import { InputType } from '~/src/Model/Input/InputType'
 import classNames from 'classnames'
-import { FieldErrors } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 interface Props {
 	name: string
@@ -12,8 +12,8 @@ interface Props {
 	type?: InputType
 	inputClassName?: string
 	wrapperClassName?: string
-	register?: any | null
-	errors?: FieldErrors,
+	onChange?: (input: string) => void
+	onInputMounted?: (ref: any) => void
 }
 
 const defaultProps: Partial<Props> = {
@@ -23,36 +23,47 @@ const defaultProps: Partial<Props> = {
 	type: InputType.TEXT,
 	inputClassName: '',
 	wrapperClassName: '',
-	register: null,
 }
 
-const TextInput = React.forwardRef(function TextInput(props: Props, ref) {
+export default function TextInput (props: Props) {
 	const { generate } = useUuidGenerator()
 	props = { ...defaultProps, ...props }
 	const [id] = useState(props.id || generate())
+	const { register, formState: { errors } } = useFormContext()
+	const {ref, ...rest} = register(props.name, {
+		onChange: (e) => {
+			props.onChange?.(e.target.value)
+		}
+	})
+	const inputRef = useRef()
 
 	const sharedProps = useMemo(() => {
 		return {
 			id,
-			name: props.name,
 			placeholder: props.placeholder,
 			className: classNames('form-control', props.inputClassName),
-			...props.register
+			...rest,
+			ref: (e: any) => {
+				ref(e)
+				inputRef.current = e
+			}
 		}
-	}, [id, props])
+	}, [id, props, ref, rest])
 
-	const textArea = <textarea ref={ref} {...sharedProps}></textarea>
-	const input = <input ref={ref} type={props.type} {...sharedProps}/>
+	useEffect(() => {
+		props.onInputMounted?.(inputRef.current)
+	}, [props])
+
+	const textArea = <textarea {...sharedProps}></textarea>
+	const input = <input type={props.type} {...sharedProps}/>
 
 	return (
 		<div className={classNames('form-floating', )}>
 			<>
 				{props.type === InputType.TEXTAREA ? textArea : input}
 				{props.label && <label htmlFor={id}>{props.label}</label>}
-				<span className="form-error">{props.errors?.[props.name]?.message as string}</span>
+				<span className="form-error">{errors?.[props.name]?.message as string}</span>
 			</>
 		</div>
 	)
-})
-
-export default TextInput
+}

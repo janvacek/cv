@@ -1,9 +1,9 @@
 import {ProsConsType} from '~/src/Model/ProsConsSummary/ProsConsItem'
-import {useRef, useState} from 'react'
+import React, { useRef } from 'react'
 import CustomButton from '~/src/Components/DesignSystem/Button/CustomButton'
 import TextInput from "~/src/Components/DesignSystem/Form/TextInput";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
+import {useForm, FormProvider} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {DevTool} from "@hookform/devtools";
 
@@ -21,35 +21,34 @@ const schema = yup.object({
 }).required()
 
 export default function ProsConsInput(props: Props) {
-	const inputRef = useRef<HTMLInputElement>(null)
-	const [inputVal, changeInputVal] = useState<string>('')
-	const { register, control, handleSubmit, formState: { errors } } = useForm<Inputs>({
+	const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null)
+
+	const formMethods = useForm<Inputs>({
 		mode: 'onBlur',
-		resolver: yupResolver(schema),
+		resolver: yupResolver(schema)
 	})
 
 	const handleButtonClick = (type: ProsConsType) => {
-		props.onButtonClick(inputVal, type)
-		inputRef.current?.focus()
+		props.onButtonClick(formMethods.getValues('addItemName'), type)
+		inputRef?.current?.focus()
+		formMethods.resetField('addItemName')
 	}
 
 	return (
-		<>
+		<FormProvider {...formMethods}>
 			<div>
 				<TextInput
-					ref={inputRef}
 					name={"addItemName"}
-					errors={errors}
-					register={register('addItemName', {
-						onChange: (e) => changeInputVal(e.target.value)
-					})}
+					label={"Přidejte vlastní položku"}
+					placeholder={"Přidejte vlastní položku"}
+					onInputMounted={(e) => inputRef.current = e}
 				/>
 			</div>
-			<CustomButton onClick={handleSubmit(() => handleButtonClick(ProsConsType.CON))}>CON</CustomButton>
-			<CustomButton onClick={handleSubmit(() => handleButtonClick(ProsConsType.PRO))}>PRO</CustomButton>
-			<CustomButton onClick={handleSubmit(() => handleButtonClick(ProsConsType.NOTE))}>NOTE</CustomButton>
+			<CustomButton onClick={formMethods.handleSubmit(() => handleButtonClick(ProsConsType.CON))}>CON</CustomButton>
+			<CustomButton onClick={formMethods.handleSubmit(() => handleButtonClick(ProsConsType.PRO))}>PRO</CustomButton>
+			<CustomButton onClick={formMethods.handleSubmit(() => handleButtonClick(ProsConsType.NOTE))}>NOTE</CustomButton>
 			<CustomButton onClick={props.onSendFeedbackClick}>FEEDBACK</CustomButton>
-			<DevTool control={control} />
-		</>
+			<DevTool control={formMethods.control} />
+		</FormProvider>
 	)
 }

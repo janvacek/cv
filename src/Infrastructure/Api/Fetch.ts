@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {WebConfig} from "~/src/Model/WebConfig/WebConfig";
 import {ConfigContext} from "~/src/Infrastructure/WebConfigContext/ConfigContext";
 
