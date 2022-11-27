@@ -41,7 +41,7 @@ export default function ProsConsInput(props: Props) {
 					name={"addItemName"}
 					label={"Přidejte vlastní položku"}
 					placeholder={"Přidejte vlastní položku"}
-					onInputMounted={(e) => inputRef.current = e}
+					onInputMounted={ref => inputRef.current = ref}
 				/>
 			</div>
 			<CustomButton onClick={formMethods.handleSubmit(() => handleButtonClick(ProsConsType.CON))}>CON</CustomButton>

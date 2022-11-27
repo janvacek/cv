@@ -13,7 +13,7 @@ interface Props {
 	inputClassName?: string
 	wrapperClassName?: string
 	onChange?: (input: string) => void
-	onInputMounted?: (ref: any) => void
+	onInputMounted?: (ref: HTMLInputElement | HTMLTextAreaElement | null) => void
 }
 
 const defaultProps: Partial<Props> = {
@@ -35,7 +35,7 @@ export default function TextInput (props: Props) {
 			props.onChange?.(e.target.value)
 		}
 	})
-	const inputRef = useRef()
+	const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null)
 
 	const sharedProps = useMemo(() => {
 		return {
