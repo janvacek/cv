@@ -2,8 +2,9 @@ import { ProsConsItem as ProsConsItemType, ProsConsType } from '~/src/Model/Pros
 import PlusIcon from '~/src/Components/Icons/PlusIcon'
 import MinusIcon from '~/src/Components/Icons/MinusIcon'
 import TrashIcon from '~/src/Components/Icons/TrashIcon'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import InfoIcon from '~/src/Components/Icons/InfoIcon'
+import classNames from 'classnames'
 
 interface Props {
 	item: ProsConsItemType
@@ -17,13 +18,20 @@ export default function ProsConsItem(props: Props) {
 		[ProsConsType.NOTE]: <InfoIcon/>
 	}
 
+	const [closing, setClosing] = useState<boolean>(false)
+
+	const onRemoveClicked = () => {
+		setClosing(true)
+		setTimeout(props.onRemoveItem, 400)
+	}
+
 	return (
-		<li className={`pros-cons-list-item ${props.item.type}`}>
+		<li className={classNames('pros-cons-list-item', props.item.type, {'closing': closing})}>
 			<div className="icon">
 				{iconMap[props.item.type]}
 			</div>
 			{ props.item.text }
-			<button onClick={() => props.onRemoveItem()}><TrashIcon /></button>
+			<button onClick={onRemoveClicked}><TrashIcon /></button>
 		</li>
 	)
 }
